@@ -13,7 +13,9 @@ document.addEventListener('DOMContentLoaded', () => {
         'red',
         'purple',
         'green',
-        'blue'
+        'blue',
+        'black',
+        'yellow'
     ]
 
     // The Tetrominoes
@@ -23,11 +25,23 @@ document.addEventListener('DOMContentLoaded', () => {
         [1, width + 1, width * 2 + 1, width * 2],
         [width, width * 2, width * 2 + 1, width * 2 + 2]
     ]
+    const ilTetromino = [
+        [0, width + 1, width * 2 + 1, 1],
+        [2, width, width + 1, width + 2],
+        [1, width + 1, width * 2 + 1, width * 2 + 2],
+        [width, width + 1, width + 2, width * 2]
+    ]
     const zTetromino = [
         [0, width, width + 1, width * 2 + 1],
         [width + 1, width + 2, width * 2, width * 2 + 1],
         [0, width, width + 1, width * 2 + 1],
         [width + 1, width + 2, width * 2, width * 2 + 1]
+    ]
+    const izTetromino = [
+        [width, width + 1, width * 2 + 1, width * 2 + 2],
+        [2, width + 1, width + 2, width * 2 + 1],
+        [width, width + 1, width * 2 + 1, width * 2 + 2],
+        [2, width + 1, width + 2, width * 2 + 1]
     ]
     const tTetromino = [
         [1, width, width + 1, width + 2],
@@ -48,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
         [width, width + 1, width + 2, width + 3]
     ]
 
-    const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
+    const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino, ilTetromino, izTetromino]
 
     let currentPosition = 4
     let currentRotation = 0
@@ -60,16 +74,16 @@ document.addEventListener('DOMContentLoaded', () => {
     //assign keyCodes to functions
     function control(e) {
         if (timerId) {
-        if (e.keyCode === 37) {
-            moveLeft()
-        } else if (e.keyCode === 38) {
-            rotate()
-        } else if (e.keyCode === 39) {
-            moveRight()
-        } else if (e.keyCode === 40) {
-            moveDown()
+            if (e.keyCode === 37) {
+                moveLeft()
+            } else if (e.keyCode === 38) {
+                rotate()
+            } else if (e.keyCode === 39) {
+                moveRight()
+            } else if (e.keyCode === 40) {
+                moveDown()
+            }
         }
-    }
     }
 
     //draw Tetromino
@@ -184,7 +198,9 @@ document.addEventListener('DOMContentLoaded', () => {
         [0, displayWidth, displayWidth + 1, displayWidth * 2 + 1], //zTetromino
         [1, displayWidth, displayWidth + 1, displayWidth + 2], //tTetromino
         [0, 1, displayWidth, displayWidth + 1], //oTetromino
-        [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1] //iTetromino
+        [1, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 3 + 1], //iTetromino
+        [0, displayWidth + 1, displayWidth * 2 + 1, 1], //ilTetromino
+        [displayWidth, displayWidth + 1, displayWidth * 2 + 1, displayWidth * 2 + 2] //izTetromino
     ]
 
     //display the shape in the mini-grid display
@@ -218,9 +234,9 @@ document.addEventListener('DOMContentLoaded', () => {
     //score counter
     function addScore() {
         for (let i = 0; i < 199; i += width) {
-            const row = [i, i+1, i+2, i+3, i+4, i+5, i+6, i+7, i+8, i+9]
+            const row = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 8, i + 9]
 
-            if(row.every(index => squares[index].classList.contains('taken'))) {
+            if (row.every(index => squares[index].classList.contains('taken'))) {
                 score += 10
                 scoreDisplay.innerHTML = score
                 row.forEach(index => {
@@ -238,9 +254,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //game over
     function gameOver() {
-        if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+        if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
             clearInterval(timerId)
-            alert("GAME OVER\nYour score: " + score + "\nRefresh for new game") 
+            alert("GAME OVER\nYour score: " + score + "\nRefresh for new game")
         }
     }
 
