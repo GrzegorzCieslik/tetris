@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.addEventListener('keydown', control)
+    document.addEventListener('keyup', control)
     const grid = document.querySelector('.grid')
     let squares = Array.from(document.querySelectorAll('.grid div'))
     const scoreDisplay = document.querySelector('#score')
@@ -59,6 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //assign keyCodes to functions
     function control(e) {
+        if (timerId) {
         if (e.keyCode === 37) {
             moveLeft()
         } else if (e.keyCode === 38) {
@@ -68,6 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if (e.keyCode === 40) {
             moveDown()
         }
+    }
     }
 
     //draw Tetromino
@@ -237,7 +239,6 @@ document.addEventListener('DOMContentLoaded', () => {
     //game over
     function gameOver() {
         if(current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
-            scoreDisplay.innerHTML = 'end'
             clearInterval(timerId)
             alert("GAME OVER\nYour score: " + score + "\nRefresh for new game") 
         }
