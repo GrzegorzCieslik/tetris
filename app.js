@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const scoreDisplay = document.querySelector('#score')
     const startBtn = document.querySelector('#start-button')
     const width = 10
-    let nextRandom = 0
+    let nextRandom = Math.floor(Math.random()*7)
     let timerId
     let score = 0
     const colors = [
@@ -224,9 +224,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             draw()
             timerId = setInterval(moveDown, 1000)
-            // if (score === 0) {
-            // nextRandom = Math.floor(Math.random() * theTetrominoes.length)
-            // }
             displayShape()
         }
     })
