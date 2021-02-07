@@ -1,34 +1,77 @@
-.container {
+body {
+    font-family: 'VT323', monospace;
+    font-size: larger;
+    background: linear-gradient(to right, rgb(113, 136, 243), rgb(122, 85, 109));
+}
+.tetris {
+    margin-top: 50px;
     display: flex;
+    justify-content: center;
+}
+
+.container {
+    margin-top: 100px;
+    display: flex;
+    justify-content: center;
+}
+.panel {
+    display: flex;
+    flex-direction: column;
+}
+.displays {
+    margin-left: 50px;
 }
 
 .grid {
-    width: 200px;
-    height: 400px;
+    width: 300px;
+    height: 600px;
     display: flex;
     flex-wrap: wrap;
     background-color: aquamarine;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 .grid div {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
 }
 
 .tetromino {
     background-color: blue;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 .mini-grid {
-    width: 80px;
-    height: 80px;
+    width: 120px;
+    height: 120px;
     display: flex;
     flex-wrap: wrap;
     background-color: aquamarine;
     margin-left: 50px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
 }
 
 .mini-grid div {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
 }
+.button {
+    background-color: black;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2), 0 6px 20px 0 rgba(0,0,0,0.19);
+}
+.button {
+    transition-duration: 0.4s;
+  }
+  
+.button:hover {
+    background-color: white; 
+    color: black;
+}
+  

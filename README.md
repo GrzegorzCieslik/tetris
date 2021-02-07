@@ -2,6 +2,6 @@
 Basic tetris game
 
 to do:
-- style
-- icon, logo 
+- icon, logo
+- pause/start on space 
 - sounds?
