@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
         'purple',
         'green',
         'blue',
-        'black',
+        'pink',
         'yellow'
     ]
 
