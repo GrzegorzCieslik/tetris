@@ -12,6 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let level = 1
     let lineCounter = 0
     let speed = 1000
+    let backgroundMusic = new backgroundSound("./sounds/Something In The Style Of Nekrassow.mp3")
+    let gameOverMusic = new sound("./sounds/Game Over Music 1.mp3")
+    let bonusSound = new sound("./sounds/Whoap 3.mp3")
     const colors = [
         'orange',
         'red',
@@ -77,6 +80,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //assign keyCodes to functions
     function control(e) {
+        if (e.keyCode === 32) {
+            startPause()
+        }
         if (timerId) {
             if (e.keyCode === 37) {
                 moveLeft()
@@ -222,15 +228,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //add button functionality
     startBtn.addEventListener('click', () => {
+        startPause()
+    })
+
+    function startPause() {
         if (timerId) {
             clearInterval(timerId)
             timerId = null
+            backgroundMusic.stop()
         } else {
             draw()
             timerId = setInterval(moveDown, speed)
             displayShape()
+            backgroundMusic.play()
         }
-    })
+    }
 
     //score counter
     function addScore() {
@@ -252,15 +264,19 @@ document.addEventListener('DOMContentLoaded', () => {
         if (count === 1) {
             score += 10
             lineCounter += 1
+            bonusSound.play()
         } else if (count === 2) {
             score += 30
             lineCounter += 2
+            bonusSound.play()
         } else if (count === 3) {
             score += 90
             lineCounter += 3
+            bonusSound.play()
         } else if (count === 4) {
             score += 270
             lineCounter += 4
+            bonusSound.play()
         }
         scoreDisplay.innerHTML = score
         levelCounter()
@@ -285,12 +301,42 @@ document.addEventListener('DOMContentLoaded', () => {
     //game over
     function gameOver() {
         if (current.some(index => squares[currentPosition + index].classList.contains('taken'))) {
+            backgroundMusic.stop()
+            gameOverMusic.play()
             clearInterval(timerId)
-            alert("GAME OVER\nYour score: " + score + "\nRefresh for new game")
+            random = null
+            nextRandom = null
+            setTimeout(function () { alert("GAME OVER\nYour score: " + score + "\nRefresh for new game") }, 500)
         }
     }
-
-
-
-
+    //sound object constuctors
+    function sound(src) {
+        this.sound = document.createElement("audio");
+        this.sound.src = src;
+        this.sound.setAttribute("preload", "auto");
+        this.sound.setAttribute("controls", "none");
+        this.sound.style.display = "none";
+        document.body.appendChild(this.sound);
+        this.play = function () {
+            this.sound.play();
+        }
+        this.stop = function () {
+            this.sound.pause();
+        }
+    }
+    function backgroundSound(src) {
+        this.backgroundSound = document.createElement("audio");
+        this.backgroundSound.src = src;
+        this.backgroundSound.setAttribute("preload", "auto");
+        this.backgroundSound.setAttribute("controls", "none");
+        this.backgroundSound.setAttribute("loop", "autoplay")
+        this.backgroundSound.style.display = "none";
+        document.body.appendChild(this.backgroundSound);
+        this.play = function () {
+            this.backgroundSound.play();
+        }
+        this.stop = function () {
+            this.backgroundSound.pause();
+        }
+    }
 })
