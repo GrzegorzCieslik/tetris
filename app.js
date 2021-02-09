@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
-    document.addEventListener('keyup', control)
+    document.addEventListener('keydown', control)
     const grid = document.querySelector('.grid')
     let squares = Array.from(document.querySelectorAll('.grid div'))
     const scoreDisplay = document.querySelector('#score')
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let level = 1
     let lineCounter = 0
     let speed = 1000
+    let isGameOver = false
     let backgroundMusic = new backgroundSound("./sounds/Something In The Style Of Nekrassow.mp3")
     let gameOverMusic = new sound("./sounds/Game Over Music 1.mp3")
     let bonusSound = new sound("./sounds/Whoap 3.mp3")
@@ -80,18 +81,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //assign keyCodes to functions
     function control(e) {
-        if (e.keyCode === 32) {
-            startPause()
-        }
-        if (timerId) {
-            if (e.keyCode === 37) {
-                moveLeft()
-            } else if (e.keyCode === 38) {
-                rotate()
-            } else if (e.keyCode === 39) {
-                moveRight()
-            } else if (e.keyCode === 40) {
-                moveDown()
+        if (!isGameOver) {
+            if (e.keyCode === 32) {
+                startPause()
+            }
+            if (timerId) {
+                if (e.keyCode === 37) {
+                    moveLeft()
+                } else if (e.keyCode === 38) {
+                    rotate()
+                } else if (e.keyCode === 39) {
+                    moveRight()
+                } else if (e.keyCode === 40) {
+                    moveDown()
+                }
             }
         }
     }
@@ -232,15 +235,17 @@ document.addEventListener('DOMContentLoaded', () => {
     })
 
     function startPause() {
-        if (timerId) {
-            clearInterval(timerId)
-            timerId = null
-            backgroundMusic.stop()
-        } else {
-            draw()
-            timerId = setInterval(moveDown, speed)
-            displayShape()
-            backgroundMusic.play()
+        if (!isGameOver) {
+            if (timerId) {
+                clearInterval(timerId)
+                timerId = null
+                backgroundMusic.stop()
+            } else {
+                draw()
+                timerId = setInterval(moveDown, speed)
+                displayShape()
+                backgroundMusic.play()
+            }
         }
     }
 
@@ -280,11 +285,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         scoreDisplay.innerHTML = score
         levelCounter()
-
     }
     //level
     function levelCounter() {
-        if (lineCounter > 10) {
+        if (lineCounter >= 10) {
             level++
             levelDisplay.innerHTML = level
             lineCounter = 0
@@ -294,7 +298,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     //set speed
     function setSpeed() {
-        speed - 100
+        speed *= 0.8
+        clearInterval(timerId)
+        timerId = null
         timerId = setInterval(moveDown, speed)
     }
 
@@ -304,8 +310,7 @@ document.addEventListener('DOMContentLoaded', () => {
             backgroundMusic.stop()
             gameOverMusic.play()
             clearInterval(timerId)
-            random = null
-            nextRandom = null
+            isGameOver = true
             setTimeout(function () { alert("GAME OVER\nYour score: " + score + "\nRefresh for new game") }, 500)
         }
     }
